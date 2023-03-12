@@ -1,4 +1,5 @@
 node_modules
 /src/upload/img
 /src/upload/emoji
+/src/upload/default
 .env
