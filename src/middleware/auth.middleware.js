@@ -9,7 +9,7 @@ const {
 
 
 const auth = async (ctx, next) => {
-  console.log("header: ", ctx.request.header);
+  // console.log("header: ", ctx.request.header);
   // const { authorization: token } = ctx.request.header
   const {authorization} = ctx.request.header
   const token = authorization.replace('bearer ', '')
