@@ -6,10 +6,17 @@ const {
   checkAdminCode,
   getAdminList,
   update,
-  deleteAdmin
+  deleteAdmin,
+  changePassword,
 } = require("../controller/admin.controller");
 
+const { judgeCodeIsExpired } = require("../middleware/code.middleware");
+
+const { crpytPassword } = require("../middleware/user.middleware");
+
 const { auth } = require("../middleware/auth.middleware");
+
+const { checkAdminIsExist } = require("../middleware/admin.middleware");
 // const {
 //   verifyLogin,
 //   judgeCodeIsExpired,
@@ -27,9 +34,18 @@ router.get("/getAll", auth, getAdminList);
 router.post("/update", auth, update);
 
 // 删除管理员
-router.post('/del', auth, deleteAdmin);
+router.post("/del", auth, deleteAdmin);
 
 // 通过工号查找管理员
-router.get('/getInfoByCode', auth, getAdminInfo);
+router.get("/getInfoByCode", auth, getAdminInfo);
+
+// 找回密码
+router.post(
+  "/changePassword",
+  checkAdminIsExist,
+  judgeCodeIsExpired,
+  crpytPassword,
+  changePassword
+);
 
 module.exports = router;

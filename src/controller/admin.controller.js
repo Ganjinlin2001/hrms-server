@@ -4,6 +4,7 @@ const { JWT_SECRET } = require("../config/config.default");
 
 const { getAdminInfo, createAdmin, getAdminList, updateAdminInfo, deleteAdminById } = require("../service/admin.service");
 
+
 class Admin {
   // 管理员注册
   async register(ctx, next) {
@@ -140,6 +141,24 @@ class Admin {
       code: 200,
       message: '删除成功',
       result: res,
+    }
+  }
+
+  // 重置管理员密码
+  async changePassword(ctx, next) {
+    const {code, password} = ctx.request.body;
+    if (await updateAdminInfo({code, password})) {
+      ctx.body = {
+        code: 200,
+        message: '修改密码成功',
+        result: '',
+      }
+    } else {
+      ctx.body = {
+        code: 10016,
+        message: '密码重置出错',
+        result: ''
+      }
     }
   }
 }

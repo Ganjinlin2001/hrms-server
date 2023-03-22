@@ -59,16 +59,17 @@ class AdminService {
         "code",
       ],
     });
-    // console.log('res: ', res[0]);
     return res ? res : null;
   }
 
 
   // 更新管理员信息
-  async updateAdminInfo({id, email, name, phone, avatar, department, service_status, apply_status}) {
-    const where = {id};
+  async updateAdminInfo({id, code, password, email, name, phone, avatar, department, service_status, apply_status}) {
+    const where = {};
+    id && Object.assign(where, {id});
+    code && Object.assign(where, {code});
     const updateData = {};
-    console.log('apply_status: ', apply_status);
+    password && Object.assign(updateData, {password});
     email && Object.assign(updateData, {email});
     name && Object.assign(updateData, {name});
     phone && Object.assign(updateData, {phone});

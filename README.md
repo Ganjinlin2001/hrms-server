@@ -17,7 +17,7 @@ npm install
 ### 运行
 
 ```
-npm run serve
+npm run dev
 ```
 
 ### 配置
