@@ -2,12 +2,11 @@ const bcrypt = require("bcryptjs");
 
 const { getStaffInfo } = require("../service/staff.service");
 
-
 // 验证员工账号是否存在
 const checkStaffIsExist = async (ctx, next) => {
   // console.log('ctx.request.body: ', ctx.request.body);
-  const {code} = ctx.request.body;
-  const res = await getStaffInfo({code});
+  const { code } = ctx.request.body;
+  const res = await getStaffInfo({ code });
   if (res === null) {
     ctx.body = {
       code: 1002,
@@ -17,14 +16,14 @@ const checkStaffIsExist = async (ctx, next) => {
   } else {
     await next();
   }
-}
+};
 
 // 验证员工是否已经注册
 const verifyStaffCodeIsExist = async (ctx, next) => {
   // console.log('ctx.request.body: ', ctx.request.body);
   const { code } = ctx.request.body;
   const res = await getStaffInfo({ code });
-  console.log('res: ', res);
+  console.log("res: ", res);
   if (res) {
     if (res.apply_status === 0) {
       ctx.body = {
@@ -72,23 +71,43 @@ const verifyPassword = async (ctx, next) => {
 
 // 验证员工是否已经通过管理员审核
 const checkApplyhasPass = async (ctx, next) => {
-  const {code} = ctx.request.body;
-  const res = await getStaffInfo({code});
+  const { code } = ctx.request.body;
+  const res = await getStaffInfo({ code });
   if (res.apply_status === 0) {
     ctx.body = {
       code: 10018,
-      message: '当前账号的注册申请正在审核中，请耐心等待管理员审核通过',
+      message: "当前账号的注册申请正在审核中，请耐心等待管理员审核通过",
       result: null,
-    }
+    };
   } else {
     await next();
   }
-}
+};
+
+// 验证员工是否离职
+const isStaffLeave = async (ctx, next) => {
+  const { code } = ctx.request.body;
+  const data = {
+    code,
+    service_status: 0,
+  }
+  const res = await getStaffInfo(data);
+  console.log('请求结果：', res);
+  if (res !== null) {
+    ctx.body = {
+      code: 10018,
+      message: "您已离职，无法使用本小程序的服务",
+      result: null,
+    };
+  } else {
+    await next();
+  }
+};
 
 module.exports = {
   verifyStaffCodeIsExist,
   verifyPassword,
   checkStaffIsExist,
   checkApplyhasPass,
-
-}
+  isStaffLeave,
+};

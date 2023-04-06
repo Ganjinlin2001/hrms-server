@@ -12,7 +12,7 @@ class AdminService {
       phone,
       email,
     });
-    return res.dataValues;
+    return res ? res.dataValues : null;
   }
   // 获取管理员信息
   async getAdminInfo({ id, code }) {

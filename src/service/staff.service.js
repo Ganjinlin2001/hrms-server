@@ -34,10 +34,15 @@ class StaffService {
   }
 
   // 获取员工信息
-  async getStaffInfo({ id, code }) {
+  async getStaffInfo({ id, code, service_status }) {
+    console.log({ id, code, service_status });
     const whereOpt = {};
     id && Object.assign(whereOpt, { id });
     code && Object.assign(whereOpt, { code });
+    // console.log('service_status: ', service_status);
+    if (service_status !== undefined) {
+      Object.assign(whereOpt, { service_status });
+    }
     const res = await Staff.findOne({
       attributes: [
         "id",
@@ -143,35 +148,49 @@ class StaffService {
     password,
     code,
   }) {
+    // console.log("gender: ", gender);
     const where = {};
-    id && Object.assign(where, {id});
-    code && Object.assign(where, {code});
+    id && Object.assign(where, { id });
+    code && Object.assign(where, { code });
     const updateData = {};
-    password && Object.assign(updateData, {password});
-    email && Object.assign(updateData, {email});
-    name && Object.assign(updateData, {name});
-    phone && Object.assign(updateData, {phone});
-    avatar && Object.assign(updateData, {avatar});
-    department && Object.assign(updateData, {department});
-    service_status && Object.assign(updateData, {service_status});
-    apply_status && Object.assign(updateData, {apply_status});
-    birthday && Object.assign(updateData, {birthday});
-    dormitory && Object.assign(updateData, {dormitory});
-    emergency_contact_person && Object.assign(updateData, {emergency_contact_person});
-    emergency_contact_phone && Object.assign(updateData, {emergency_contact_phone});
-    home_address && Object.assign(updateData, {home_address});
-    school && Object.assign(updateData, {school});
-    school_address && Object.assign(updateData, {school_address});
-    edu_bg && Object.assign(updateData, {edu_bg});
-    major && Object.assign(updateData, {major});
-    job && Object.assign(updateData, {job});
-    pro_skills && Object.assign(updateData, {pro_skills});
-    work_experience && Object.assign(updateData, {work_experience});
-    campus_experience && Object.assign(updateData, {campus_experience});
-    project_experience && Object.assign(updateData, {project_experience});
-    labor_contract && Object.assign(updateData, {labor_contract});
-    basic_salary && Object.assign(updateData, {basic_salary});
-    const res = await Staff.update(updateData, {where});
+    password && Object.assign(updateData, { password });
+    email && Object.assign(updateData, { email });
+    name && Object.assign(updateData, { name });
+    if (gender !== "undefined") {
+      Object.assign(updateData, { gender });
+    }
+    id_number && Object.assign(updateData, { id_number });
+    phone && Object.assign(updateData, { phone });
+    avatar && Object.assign(updateData, { avatar });
+    department && Object.assign(updateData, { department });
+    if (service_status !== 'undefined') {
+      Object.assign(updateData, { service_status });
+    }
+    if (apply_status !== 'undefined') {
+      Object.assign(updateData, { apply_status });
+    }
+    birthday && Object.assign(updateData, { birthday });
+    dormitory && Object.assign(updateData, { dormitory });
+    emergency_contact_person &&
+      Object.assign(updateData, { emergency_contact_person });
+    emergency_contact_phone &&
+      Object.assign(updateData, { emergency_contact_phone });
+    home_address && Object.assign(updateData, { home_address });
+    school && Object.assign(updateData, { school });
+    school_address && Object.assign(updateData, { school_address });
+    edu_bg && Object.assign(updateData, { edu_bg });
+    major && Object.assign(updateData, { major });
+    job && Object.assign(updateData, { job });
+    pro_skills && Object.assign(updateData, { pro_skills });
+    work_experience && Object.assign(updateData, { work_experience });
+    campus_experience && Object.assign(updateData, { campus_experience });
+    project_experience && Object.assign(updateData, { project_experience });
+    labor_contract && Object.assign(updateData, { labor_contract });
+    basic_salary && Object.assign(updateData, { basic_salary });
+    console.log("where：", where);
+    console.log("updateData：", updateData);
+    const res = await Staff.update(updateData, { where });
+    // console.log("更新结果：", res);
     return res;
   }
 }

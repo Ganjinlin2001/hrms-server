@@ -16,7 +16,7 @@ const Staff = seq.define('staff', {
     comment: '员工姓名',
   },
   gender: {
-    type: DataTypes.TINYINT,
+    type: DataTypes.CHAR(2),
     comment: '员工性别',
   },
   birthday: {
@@ -109,7 +109,7 @@ const Staff = seq.define('staff', {
     defaultValue: 0
   },
   service_status: {
-    type: DataTypes.TINYINT,
+    type: DataTypes.BOOLEAN,
     comment: '员工状态，是否在职，0-离职，1-在职',
     defaultValue: 1,
   },
