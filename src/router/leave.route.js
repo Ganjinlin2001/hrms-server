@@ -6,8 +6,13 @@ const {
   cancelStaffLeaveApply,
   getAllStaffLeaveRecord,
   getStaffLeaveInfoByCode,
-  updateStaffLeaveInfoByCode
+  updateStaffLeaveInfoByCode,
+  getStaffInfo,
+  passStaffLeave,
 } = require("../controller/leave.controller");
+
+const { sendPDF } = require("../middleware/leave.middleware");
+
 const { auth } = require("../middleware/auth.middleware");
 
 const router = new Router({ prefix: "/api/leave" });
@@ -19,10 +24,18 @@ router.post("/add", addStaffLeaveApply);
 router.post("/cancel", cancelStaffLeaveApply);
 
 // 管理员相关接口
-router.get('/getAllStaffLeaveRecord', auth, getAllStaffLeaveRecord);
+router.get("/getAllStaffLeaveRecord", auth, getAllStaffLeaveRecord);
 
-router.get('/getStaffLeaveInfoByCode', auth, getStaffLeaveInfoByCode);
+router.get("/getStaffLeaveInfoByCode", auth, getStaffLeaveInfoByCode);
 
-router.post('/updateStaffLeaveInfoByCode', auth, updateStaffLeaveInfoByCode);
+router.post("/updateStaffLeaveInfoByCode", auth, updateStaffLeaveInfoByCode);
+
+router.post("/updateLeave", updateStaffLeaveInfoByCode);
+
+router.get("/getStaffInfo", auth, getStaffInfo);
+
+// 通过审批事件
+router.post("/pass", auth, sendPDF, updateStaffLeaveInfoByCode);
+// router.post("/pass", auth, updateStaffLeaveInfoByCode);
 
 module.exports = router;

@@ -15,6 +15,7 @@ class StaffService {
     job,
     department,
     dormitory,
+    basic_salary,
   }) {
     const res = await Staff.create({
       code,
@@ -29,6 +30,7 @@ class StaffService {
       job,
       department,
       dormitory,
+      basic_salary,
     });
     return res.dataValues;
   }
@@ -73,6 +75,8 @@ class StaffService {
         "labor_contract",
         "apply_status",
         "service_status",
+        "createdAt",
+        "updatedAt",
       ],
       where: whereOpt,
     });
@@ -147,6 +151,7 @@ class StaffService {
     service_status,
     password,
     code,
+    leave_html
   }) {
     // console.log("gender: ", gender);
     const where = {};
@@ -163,10 +168,10 @@ class StaffService {
     phone && Object.assign(updateData, { phone });
     avatar && Object.assign(updateData, { avatar });
     department && Object.assign(updateData, { department });
-    if (service_status !== 'undefined') {
+    if (service_status !== "undefined") {
       Object.assign(updateData, { service_status });
     }
-    if (apply_status !== 'undefined') {
+    if (apply_status !== "undefined") {
       Object.assign(updateData, { apply_status });
     }
     birthday && Object.assign(updateData, { birthday });
@@ -187,7 +192,6 @@ class StaffService {
     project_experience && Object.assign(updateData, { project_experience });
     labor_contract && Object.assign(updateData, { labor_contract });
     basic_salary && Object.assign(updateData, { basic_salary });
-    console.log("where：", where);
     console.log("updateData：", updateData);
     const res = await Staff.update(updateData, { where });
     // console.log("更新结果：", res);

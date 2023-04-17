@@ -32,6 +32,26 @@ const Leave = seq.define("leave", {
     comment: "审核状态",
     defaultValue: 0,
   },
+  leave_html: {
+    type: DataTypes.TEXT,
+    comment: '离职申请书预览页面'
+  },
+  signature_img: {
+    type: DataTypes.TEXT,
+    comment: '员工的手写签名照'
+  },
+  signature_img_a: {
+    type: DataTypes.TEXT,
+    comment: '管理员的手写签名照'
+  },
+  sign_date: {
+    type: DataTypes.STRING,
+    comment: '乙方签字的日期',
+  },
+  sign_date_a: {
+    type: DataTypes.STRING,
+    comment: '甲方签字的日期',
+  }
 });
 
 Leave.sync();

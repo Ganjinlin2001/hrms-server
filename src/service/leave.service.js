@@ -1,16 +1,15 @@
 const Leave = require("../model/leave.model");
 
-const {updateStaffInfo} = require('../service/staff.service');
+const { updateStaffInfo } = require("../service/staff.service");
 
 class LeaveService {
   async getLateRecord({ code }) {
-    const res = await Leave.findOne({
+    const res = await Leave.findAll({
       where: {
         code,
-        status: 0,
       },
     });
-    return res ? res.dataValues : null;
+    return res ? res : null;
   }
 
   async createStaffLeaveApply({
@@ -32,36 +31,45 @@ class LeaveService {
     return res ? res.dataValues : null;
   }
 
-  async updateStaffLeaveInfo({code, id, status}) {
+  async updateStaffLeaveInfo({
+    code,
+    id,
+    status,
+    leave_html,
+    signature_img,
+    sign_date,
+    signature_img_a,
+    pdf_base64_string,
+    sign_date_a
+  }) {
+    // console.log("水水水水",{ code, id, status, leave_html });
     const where = {};
     code && Object.assign(where, { code });
     id && Object.assign(where, { id });
     const updateData = {};
-    status && Object.assign(updateData, { status });
+    if (status !== "undefined") {
+      Object.assign(updateData, { status });
+    }
+    leave_html && Object.assign(updateData, { leave_html });
+    signature_img && Object.assign(updateData, { signature_img });
+    sign_date && Object.assign(updateData, { sign_date });
+    signature_img_a && Object.assign(updateData, { signature_img_a });
+    sign_date_a && Object.assign(updateData, { sign_date_a });
     const res = await Leave.update(updateData, { where });
     // 更新用户的个人信息
-    const res2 = await updateStaffInfo({code, service_status: 0});
-    console.log('res2: ', res2);
+    console.log('pdf_base64_string: ', pdf_base64_string == undefined);
+    if (pdf_base64_string !== undefined) {
+      await updateStaffInfo({ code, service_status: 0 });
+    }
+    // console.log("res2: ", res2);
     return res;
   }
 
-  async getStaffLeaveInfo({code}) {
+  async getStaffLeaveInfo({ code }) {
     const res = await Leave.findAll({
       where: {
         code,
-      },
-      attributes: [
-        "id",
-        "name",
-        "status",
-        "department",
-        "job",
-        "reason",
-        "entry_time",
-        "createdAt",
-        "updatedAt",
-        "code",
-      ],
+      }
     });
     return res ? res : null;
   }
@@ -71,22 +79,13 @@ class LeaveService {
     code && Object.assign(where, { code });
     const res = await Leave.findAll({
       where,
-      attributes: [
-        "id",
-        "name",
-        "status",
-        "department",
-        "job",
-        "reason",
-        "entry_time",
-        "createdAt",
-        "updatedAt",
-        "code",
-      ],
     });
     // console.log('res: ',);
     return res ? res : null;
   }
+
+  // 通过员工的离职申请
+  async passStaffLeave({ code }) {}
 }
 
 module.exports = new LeaveService();

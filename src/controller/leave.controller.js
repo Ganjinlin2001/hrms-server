@@ -4,7 +4,10 @@ const {
   updateStaffLeaveInfo,
   getStaffLeaveInfo,
   getAll,
+  passStaffLeave,
 } = require("../service/leave.service");
+
+const { getStaffInfo } = require("../service/staff.service");
 
 class LeaveController {
   async getLateRecord(ctx) {
@@ -67,14 +70,57 @@ class LeaveController {
   }
 
   async updateStaffLeaveInfoByCode(ctx) {
-    const { code, status, id } = ctx.request.body;
-    const res = await updateStaffLeaveInfo({ code, status, id });
+    const {
+      code,
+      status,
+      id,
+      leave_html,
+      signature_img,
+      sign_date,
+      signature_img_a,
+      pdf_base64_string,
+      sign_date_a,
+    } = ctx.request.body;
+    const res = await updateStaffLeaveInfo({
+      code,
+      status,
+      id,
+      leave_html,
+      signature_img,
+      sign_date,
+      signature_img_a,
+      pdf_base64_string,
+      sign_date_a
+    });
+    // console.log('返回成功信息');
     ctx.body = {
       code: 200,
-      message: "审核成功",
+      message: "成功",
+      result: "",
+    };
+  }
+
+  // 获取员工的身份证信息和电话号码
+  async getStaffInfo(ctx) {
+    const { code } = ctx.query;
+    const res = await getStaffInfo({ code });
+    ctx.body = {
+      code: 200,
+      message: "",
       result: res,
     };
   }
+
+  // 通过员工的离职审批
+  // async passStaffLeave(ctx) {
+  //   const { code, status } = ctx.request.body;
+  //   const res = await passStaffLeave({code, status});
+  //   ctx.body = {
+  //     code: 200,
+  //     message: "审批成功",
+  //     result: res,
+  //   };
+  // }
 }
 
 module.exports = new LeaveController();

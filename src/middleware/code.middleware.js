@@ -14,10 +14,10 @@ const judgeCodeIsExpired = async (ctx, next) => {
   let current_time = new Date().getTime();
   // console.log();
   let isExpired =
-    Math.floor((current_time - res.send_time * 1) / 10) > 300 ? false : true;
+    Math.floor((current_time - res.send_time * 1) / 1000) > 60 ? false : true;
   // 后端判断验证码是否获取频繁
 
-  if (!isExpired) {
+  if (isExpired) {
     console.log("当前邮箱验证码未过期");
     if (res.verifyCode === verifyCode) {
       console.log("验证码正确");

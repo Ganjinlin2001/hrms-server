@@ -37,6 +37,8 @@ class StaffController {
       labor_contract,
       apply_status,
       service_status,
+      createdAt,
+      updatedAt,
     } = await getStaffInfo({ code });
     ctx.body = {
       code: 200,
@@ -70,6 +72,8 @@ class StaffController {
           labor_contract,
           apply_status,
           service_status,
+          createdAt,
+          updatedAt,
         },
       },
     };
@@ -89,6 +93,7 @@ class StaffController {
       job,
       department,
       dormitory,
+      basic_salary
     } = ctx.request.body;
     const res = await createStaff({
       code,
@@ -103,6 +108,7 @@ class StaffController {
       job,
       department,
       dormitory,
+      basic_salary
     });
     ctx.body = {
       code: 200,
@@ -254,6 +260,24 @@ class StaffController {
       message: "更新成功",
       result: res,
     };
+  }
+
+  // 员工修改密码
+  async changePassword(ctx) {
+    const {code, password} = ctx.request.body;
+    if (await updateStaffInfo({code, password})) {
+      ctx.body = {
+        code: 200,
+        message: '修改密码成功',
+        result: '',
+      }
+    } else {
+      ctx.body = {
+        code: 10016,
+        message: '密码重置出错',
+        result: ''
+      }
+    }
   }
 }
 

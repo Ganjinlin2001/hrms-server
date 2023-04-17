@@ -11,6 +11,7 @@ const {
 } = require("../controller/vacate.controller");
 const { auth } = require("../middleware/auth.middleware");
 
+// 添加路径前缀
 const router = new Router({ prefix: "/api/vacate" });
 
 router.get("/getStaffLateVacateRecord", getStaffLateRecord);

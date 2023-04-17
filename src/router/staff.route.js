@@ -1,9 +1,11 @@
 const Router = require("koa-router");
 
-const { register, login, getStaffList, adminUpdate, getStaffInfo } = require("../controller/staff.controller");
+const { register, login, getStaffList, adminUpdate, getStaffInfo, changePassword } = require("../controller/staff.controller");
 const { auth } = require("../middleware/auth.middleware");
 const { checkStaffIsExist, verifyStaffCodeIsExist, verifyPassword, checkApplyhasPass, isStaffLeave } = require("../middleware/staff.middleware");
 const { crpytPassword } = require("../middleware/user.middleware");
+
+const { judgeCodeIsExpired } = require("../middleware/code.middleware");
 
 const router = new Router({ prefix: "/api/staff" });
 
@@ -24,5 +26,8 @@ router.post("/adminUpdate", auth, adminUpdate);
 
 // 员工更新自己的信息
 router.post('/staffUpdate', adminUpdate);
+
+// 员工重置密码
+router.post('/changePassword', checkStaffIsExist, isStaffLeave, judgeCodeIsExpired, crpytPassword, changePassword);
 
 module.exports = router;

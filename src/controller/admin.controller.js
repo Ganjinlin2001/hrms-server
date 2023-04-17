@@ -82,6 +82,7 @@ class Admin {
           }
         ),
         userInfo: {
+          code,
           id,
           email,
           name,
