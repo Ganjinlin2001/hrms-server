@@ -20,9 +20,38 @@ class recruitmentService {
   async searchJobByKeyWord({ keyWord }) {
     return await Recruitment.findAndCountAll({
       where: {
-        name: {
-          [Op.like]: `%${keyWord}%`
-        }
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            salary: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            city: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            experiece: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            degree: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            desc: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
       }
     })
   }

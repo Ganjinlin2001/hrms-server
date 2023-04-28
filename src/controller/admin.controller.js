@@ -2,8 +2,13 @@ const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET } = require("../config/config.default");
 
-const { getAdminInfo, createAdmin, getAdminList, updateAdminInfo, deleteAdminById } = require("../service/admin.service");
-
+const {
+  getAdminInfo,
+  createAdmin,
+  getAdminList,
+  updateAdminInfo,
+  deleteAdminById,
+} = require("../service/admin.service");
 
 class Admin {
   // 管理员注册
@@ -101,9 +106,9 @@ class Admin {
 
   async getAdminInfo(ctx, next) {
     // const id = 1;
-    const {id, code} = ctx.query;
-    console.log("code: ", {code});
-    const res = await getAdminInfo({id, code});
+    const { keyWord } = ctx.query;
+    // console.log("code: ", { code });
+    const res = await getAdminList({ keyWord });
     ctx.body = {
       code: 200,
       message: "请求成功",
@@ -113,53 +118,71 @@ class Admin {
 
   // 获取管理员列表
   async getAdminList(ctx, next) {
-    const res = await getAdminList();
+    const res = await getAdminList({keyWord: ''});
     // console.log('res: ', res);
     ctx.body = {
       code: 200,
       message: "请求成功",
       result: res,
-    }
+    };
   }
 
   // 更新管理员信息
   async update(ctx, next) {
-    const {id, email, name, phone, avatar, department, service_status, apply_status} = ctx.request.body;
+    const {
+      id,
+      email,
+      name,
+      phone,
+      avatar,
+      department,
+      service_status,
+      apply_status,
+    } = ctx.request.body;
     // console.log({id, email, name, phone, avatar, department, service_status, apply_status});
-    const res = await updateAdminInfo({id, email, name, phone, avatar, department, service_status, apply_status});
+    const res = await updateAdminInfo({
+      id,
+      email,
+      name,
+      phone,
+      avatar,
+      department,
+      service_status,
+      apply_status,
+    });
     ctx.body = {
       code: 200,
-      message: '更新成功',
+      message: "更新成功",
       result: res,
-    }
+    };
   }
 
   // 删除管理员
   async deleteAdmin(ctx, next) {
-    const {id} = ctx.request.body;
-    const res = await deleteAdminById({id});
+    const { id } = ctx.request.body;
+    const res = await deleteAdminById({ id });
     ctx.body = {
       code: 200,
-      message: '删除成功',
+      message: "删除成功",
       result: res,
-    }
+    };
   }
 
   // 重置管理员密码
   async changePassword(ctx, next) {
-    const {code, password} = ctx.request.body;
-    if (await updateAdminInfo({code, password})) {
+    const { code, password } = ctx.request.body;
+    if (await updateAdminInfo({ code, password })) {
       ctx.body = {
         code: 200,
-        message: '修改密码成功',
-        result: '',
-      }
+        message: "修改密码成功",
+        result: "",
+      };
     } else {
       ctx.body = {
         code: 10016,
-        message: '密码重置出错',
-        result: ''
-      }
+        message: "密码重置出错",
+        result: "",
+      };
     }
   }
 }

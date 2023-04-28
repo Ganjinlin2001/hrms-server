@@ -36,8 +36,8 @@ router.post("/update", auth, update);
 // 删除管理员
 router.post("/del", auth, deleteAdmin);
 
-// 通过工号查找管理员
-router.get("/getInfoByCode", auth, getAdminInfo);
+// 通过关键词查找管理员
+router.get("/getAdminInfoByKeyWord", auth, getAdminInfo);
 
 // 找回密码
 router.post(

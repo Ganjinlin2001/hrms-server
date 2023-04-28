@@ -1,5 +1,5 @@
 const Admin = require("../model/admin.model");
-
+const { Op } = require("sequelize");
 class AdminService {
   // 创建管理员用户
   async createAdmin({ code, password, name, gender, age, phone, email }) {
@@ -33,7 +33,7 @@ class AdminService {
         "is_super",
         "apply_status",
         "password",
-        "code"
+        "code",
       ],
       where: whereOpt,
     });
@@ -42,8 +42,42 @@ class AdminService {
   }
 
   // 获取管理员列表
-  async getAdminList() {
+  async getAdminList({ keyWord }) {
     const res = await Admin.findAll({
+      where: {
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            age: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            phone: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            email: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
+      },
       attributes: [
         "id",
         "email",
@@ -62,29 +96,39 @@ class AdminService {
     return res ? res : null;
   }
 
-
   // 更新管理员信息
-  async updateAdminInfo({id, code, password, email, name, phone, avatar, department, service_status, apply_status}) {
+  async updateAdminInfo({
+    id,
+    code,
+    password,
+    email,
+    name,
+    phone,
+    avatar,
+    department,
+    service_status,
+    apply_status,
+  }) {
     const where = {};
-    id && Object.assign(where, {id});
-    code && Object.assign(where, {code});
+    id && Object.assign(where, { id });
+    code && Object.assign(where, { code });
     const updateData = {};
-    password && Object.assign(updateData, {password});
-    email && Object.assign(updateData, {email});
-    name && Object.assign(updateData, {name});
-    phone && Object.assign(updateData, {phone});
-    avatar && Object.assign(updateData, {avatar});
-    department && Object.assign(updateData, {department});
-    service_status && Object.assign(updateData, {service_status});
-    apply_status && Object.assign(updateData, {apply_status});
-    const res = await Admin.update(updateData, {where});
+    password && Object.assign(updateData, { password });
+    email && Object.assign(updateData, { email });
+    name && Object.assign(updateData, { name });
+    phone && Object.assign(updateData, { phone });
+    avatar && Object.assign(updateData, { avatar });
+    department && Object.assign(updateData, { department });
+    service_status && Object.assign(updateData, { service_status });
+    apply_status && Object.assign(updateData, { apply_status });
+    const res = await Admin.update(updateData, { where });
     return res;
   }
 
   // 删除管理员
-  async deleteAdminById({id}) {
-    const where = {id};
-    const res = await Admin.destroy({where});
+  async deleteAdminById({ id }) {
+    const where = { id };
+    const res = await Admin.destroy({ where });
     return res[0] > 0 ? true : false;
   }
 }

@@ -25,8 +25,8 @@ class PerformanceController {
   }
 
   async getStaffAllPerformanceList(ctx) {
-    const { code } = ctx.query;
-    const res = await getAll({ code });
+    const { keyWord } = ctx.query;
+    const res = await getAll({ keyWord });
     ctx.body = {
       code: 200,
       message: "获取成功",
@@ -35,8 +35,8 @@ class PerformanceController {
   }
 
   async getAllStaffPerformance(ctx) {
-    const { code, year, month } = ctx.query;
-    const res = await getAll({ code, year, month });
+    const { keyWord, year, month } = ctx.query;
+    const res = await getAll({ keyWord, year, month });
     ctx.body = {
       code: 200,
       message: "获取成功",
@@ -53,6 +53,7 @@ class PerformanceController {
       reward,
       reward_salary,
       real_salary,
+      performance_salary
     } = ctx.request.body;
     const res = await updateStaffPerformance({
       code,
@@ -62,6 +63,7 @@ class PerformanceController {
       reward,
       reward_salary,
       real_salary,
+      performance_salary
     });
     ctx.body = {
       code: 200,
@@ -71,8 +73,8 @@ class PerformanceController {
   }
 
   async searchPerformance(ctx) {
-    const { code, year, month } = ctx.query;
-    const res = await getAll({ code, year, month });
+    const { keyWord, year, month } = ctx.query;
+    const res = await getAll({ keyWord, year, month });
     ctx.body = {
       code: 200,
       message: "获取成功",

@@ -1,5 +1,5 @@
 const Vacate = require("../model/vacate.model");
-
+const { Op } = require("sequelize");
 class VacateService {
   async getStaffLateRecord({ code }) {
     const res = await Vacate.findOne({
@@ -44,7 +44,7 @@ class VacateService {
 
   async updateStaffVacateInfo({ code, status, id }) {
     const where = {};
-    id && Object.assign(where, {id});
+    id && Object.assign(where, { id });
     code && Object.assign(where, { code });
     const updateData = {};
     status && Object.assign(updateData, { status });
@@ -52,11 +52,28 @@ class VacateService {
     return res;
   }
 
-  async getStaffVacateInfo({code}) {
+  async getStaffVacateInfo({ keyWord }) {
+    const where = {
+      [Op.or]: [
+        {
+          code: {
+            [Op.like]: `%${keyWord}%`,
+          },
+        },
+        {
+          name: {
+            [Op.like]: `%${keyWord}%`,
+          },
+        },
+        {
+          reason: {
+            [Op.like]: `%${keyWord}%`,
+          },
+        },
+      ],
+    }
     const res = await Vacate.findAll({
-      where: {
-        code,
-      },
+      where,
       attributes: [
         "id",
         "name",

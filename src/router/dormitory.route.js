@@ -6,7 +6,7 @@ const {
   addStaffDormitoryApply,
   cancelStaffDormitoryApply,
   getAllStaffDormitoryRecord,
-  getStaffDormitoryInfoByCode,
+  getStaffDormitoryInfoByKeyWord,
   updateStaffDormitoryInfoByCode
 } = require("../controller/dormitory.controller");
 const { auth } = require("../middleware/auth.middleware");
@@ -23,7 +23,7 @@ router.post("/cancel", cancelStaffDormitoryApply);
 
 router.get("/getAllStaffDormitoryRecord", auth, getAllStaffDormitoryRecord);
 
-router.get('/getStaffDormitoryInfoByCode', auth, getStaffDormitoryInfoByCode);
+router.get('/getStaffDormitoryInfoByKeyWord', getStaffDormitoryInfoByKeyWord);
 
 router.post('/updateStaffDormitoryInfoByCode', auth, updateStaffDormitoryInfoByCode);
 

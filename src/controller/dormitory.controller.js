@@ -37,8 +37,8 @@ class DormitoryController {
   }
 
   async getStaffAllDormitoryRocord(ctx) {
-    const { code } = ctx.query;
-    const res = await getAll({ code });
+    const { keyWord } = ctx.query;
+    const res = await getAll({ keyWord });
     console.log('res: ', res);
     ctx.body = {
       code: 200,
@@ -58,7 +58,7 @@ class DormitoryController {
   }
 
   async getAllStaffDormitoryRecord(ctx) {
-    const res = await getAll({});
+    const res = await getAll({keyWord: ''});
     ctx.body = {
       code: 200,
       message: "数据获取成功",
@@ -79,6 +79,16 @@ class DormitoryController {
   async updateStaffDormitoryInfoByCode(ctx) {
     const { code, status, id } = ctx.request.body;
     const res = await updateStaffDormitoryInfo({ code, status, id });
+    ctx.body = {
+      code: 200,
+      message: "审核成功",
+      result: res,
+    };
+  }
+
+  async getStaffDormitoryInfoByKeyWord(ctx) {
+    const { keyWord } = ctx.query;
+    const res = await getAll({ keyWord });
     ctx.body = {
       code: 200,
       message: "审核成功",

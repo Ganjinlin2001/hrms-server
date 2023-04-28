@@ -6,8 +6,8 @@ const {
   addStaffVacateApply,
   cancelVacateApply,
   getAllStaffVacateRecord,
-  getStaffVacateInfoByCode,
-  updateStaffVacateInfoByCode
+  updateStaffVacateInfoByCode,
+  getStaffVacateInfoByKeyWord
 } = require("../controller/vacate.controller");
 const { auth } = require("../middleware/auth.middleware");
 
@@ -25,7 +25,9 @@ router.post("/cancel", cancelVacateApply);
 // 管理员相关的
 router.get("/getAllStaffVacateRecord", auth, getAllStaffVacateRecord);
 
-router.get('/getStaffVacateInfoByCode', auth, getStaffVacateInfoByCode);
+// router.get('/getStaffVacateInfoByCode', auth, getStaffVacateInfoByCode);
+
+router.get('/search', getStaffVacateInfoByKeyWord);
 
 router.post('/updateStaffVacateInfoByCode', auth, updateStaffVacateInfoByCode);
 

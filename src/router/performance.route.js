@@ -14,6 +14,6 @@ router.get('/getAll', auth, getAllStaffPerformance);
 
 router.post('/update', auth, updateStaffPerformance);
 
-router.get('/search', auth, searchPerformance);
+router.get('/search', searchPerformance);
 
 module.exports = router;

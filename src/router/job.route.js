@@ -25,7 +25,7 @@ router.get('/getStaffAll', getStaffAll);
 
 router.get('/getAll', auth, getAll);
 
-router.get('/getStaffJobInfoByCode', auth, getStaffJobInfoByCode);
+router.get('/getStaffJobInfoByKeyWord', getStaffJobInfoByCode);
 
 // 员工更新自己的信息
 router.post('/updateStaffJobInfoByCode', auth, updateStaffJobInfoByCode);

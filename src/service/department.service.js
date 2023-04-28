@@ -57,7 +57,33 @@ class DepartmentService {
   async getStaffDepartmentInfo({code}) {
     const res = await Department.findAll({
       where: {
-        code,
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            pre_department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            new_department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reason: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
       },
       attributes: [
         "id",

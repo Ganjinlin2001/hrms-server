@@ -5,7 +5,7 @@ const {
   addStaffLeaveApply,
   cancelStaffLeaveApply,
   getAllStaffLeaveRecord,
-  getStaffLeaveInfoByCode,
+  getStaffLeaveInfoByKeyWord,
   updateStaffLeaveInfoByCode,
   getStaffInfo,
   passStaffLeave,
@@ -26,7 +26,7 @@ router.post("/cancel", cancelStaffLeaveApply);
 // 管理员相关接口
 router.get("/getAllStaffLeaveRecord", auth, getAllStaffLeaveRecord);
 
-router.get("/getStaffLeaveInfoByCode", auth, getStaffLeaveInfoByCode);
+router.get("/getStaffLeaveInfoByKeyWord", auth, getStaffLeaveInfoByKeyWord);
 
 router.post("/updateStaffLeaveInfoByCode", auth, updateStaffLeaveInfoByCode);
 

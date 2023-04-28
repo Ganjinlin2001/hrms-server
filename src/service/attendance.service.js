@@ -1,9 +1,37 @@
+const { Op } = require("sequelize");
+
 const Attendance = require("../model/attendance.model");
 
 class AttendanceService {
-  async getAll({ code }) {
-    const where = {};
-    code && Object.assign(where, { code });
+  async getAll({ keyWord }) {
+    let where = {};
+    if (keyWord !== undefined) {
+      where = {
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            job: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
+      }
+    }
+    // code && Object.assign(where, { code });
     const res = await Attendance.findAll({
       where,
       attributes: [

@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const Leave = require("../model/leave.model");
 
 const { updateStaffInfo } = require("../service/staff.service");
@@ -65,11 +67,37 @@ class LeaveService {
     return res;
   }
 
-  async getStaffLeaveInfo({ code }) {
+  async getStaffLeaveInfo({ keyWord }) {
     const res = await Leave.findAll({
       where: {
-        code,
-      }
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            job: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reason: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
+      },
     });
     return res ? res : null;
   }

@@ -17,7 +17,7 @@ router.post("/add", auth, addJob);
 
 router.post("/update", auth, updateJobInfo);
 
-router.get("/search", auth, searchJobByKeyWord);
+router.get("/search", searchJobByKeyWord);
 
 router.post("/del", auth, deleteJob);
 

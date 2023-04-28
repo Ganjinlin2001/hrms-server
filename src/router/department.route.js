@@ -6,7 +6,7 @@ const {
   addStaffDepartmentApply,
   cancelStaffDepartmentApply,
   getAllStaffDepartmentRecord,
-  getStaffDepartmentInfoByCode,
+  getStaffDepartmentInfoByKeyWord,
   updateStaffDepartmentInfoByCode
 } = require("../controller/department.controller");
 const { auth } = require("../middleware/auth.middleware");
@@ -23,7 +23,7 @@ router.post('/cancel', cancelStaffDepartmentApply);
 
 router.get('/getAllStaffDepartmentRecord', auth, getAllStaffDepartmentRecord);
 
-router.get('/getStaffDepartmentInfoByCode', auth, getStaffDepartmentInfoByCode);
+router.get('/getStaffDepartmentInfoByKeyWord', getStaffDepartmentInfoByKeyWord);
 
 router.post('/updateStaffDepartmentInfoByCode', auth, updateStaffDepartmentInfoByCode);
 

@@ -1,5 +1,7 @@
 const Dormitory = require("../model/dormitory.model");
 
+const { Op } = require("sequelize");
+
 class DormitoryService {
   async createStaffDormitoryApply({
     code,
@@ -28,7 +30,7 @@ class DormitoryService {
     return res ? res.dataValues : null;
   }
 
-  async getStaffDormitoryInfo({code}) {
+  async getStaffDormitoryInfo({ code }) {
     const res = await Dormitory.findAll({
       where: {
         code,
@@ -49,9 +51,40 @@ class DormitoryService {
     return res ? res : null;
   }
 
-  async getAll({ code }) {
-    const where = {};
-    code && Object.assign(where, { code });
+  async getAll({ keyWord }) {
+    let where = {};
+    // code && Object.assign(where, { code });
+    if (keyWord !== undefined) {
+      where = {
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            pre_dormitory: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            new_dormitory: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reason: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
+      };
+    }
     const res = await Dormitory.findAll({
       where,
       attributes: [

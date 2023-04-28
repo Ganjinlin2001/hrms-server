@@ -59,14 +59,18 @@ class LeaveController {
     };
   }
 
-  async getStaffLeaveInfoByCode(ctx) {
-    const { code } = ctx.query;
-    const res = await getStaffLeaveInfo({ code });
-    ctx.body = {
-      code: 200,
-      message: "数据获取成功",
-      result: res,
-    };
+  async getStaffLeaveInfoByKeyWord(ctx) {
+    try {
+      const { keyWord } = ctx.query;
+      const res = await getStaffLeaveInfo({ keyWord });
+      ctx.body = {
+        code: 200,
+        message: "数据获取成功",
+        result: res,
+      };
+    } catch (error) {
+      console.error('controller 出错信息：', error)
+    }
   }
 
   async updateStaffLeaveInfoByCode(ctx) {
@@ -90,7 +94,7 @@ class LeaveController {
       sign_date,
       signature_img_a,
       pdf_base64_string,
-      sign_date_a
+      sign_date_a,
     });
     // console.log('返回成功信息');
     ctx.body = {

@@ -10,9 +10,9 @@ const Performance = seq.define('performance', {
     基础工资
     绩效
       分为 A B C，对应不同的绩效工资
-      - A：2500
-      - B：1500
-      - C：0（没有绩效工资）
+      - A：30%
+      - B：20%
+      - C：10%（没有绩效工资）
     奖惩
       可以根据员工上班考勤情况设置全勤奖等
     实发工资
@@ -49,6 +49,10 @@ const Performance = seq.define('performance', {
   performance: {
     type: DataTypes.CHAR(10),
     comment: '绩效等级'
+  },
+  performance_salary: {
+    type: DataTypes.INTEGER,
+    comment: '绩效工资'
   },
   reward: {
     type: DataTypes.STRING,

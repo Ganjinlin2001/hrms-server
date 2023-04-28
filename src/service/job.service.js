@@ -1,5 +1,5 @@
 const Job = require("../model/job.model");
-
+const { Op } = require("sequelize");
 class JobService {
   async createStaffJobApply({ code, name, pre_job, new_job, reason }) {
     const res = await Job.create({
@@ -53,10 +53,36 @@ class JobService {
     return res ? res : null;
   }
 
-  async getStaffJobInfo({ code }) {
+  async getStaffJobInfo({ keyWord }) {
     const res = await Job.findAll({
       where: {
-        code,
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            pre_job: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            new_job: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reason: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
       },
       attributes: [
         "id",

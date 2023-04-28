@@ -66,9 +66,9 @@ class DepartmentController {
     };
   }
 
-  async getStaffDepartmentInfoByCode(ctx) {
-    const { code } = ctx.query;
-    const res = await getStaffDepartmentInfo({ code });
+  async getStaffDepartmentInfoByKeyWord(ctx) {
+    const { keyWord } = ctx.query;
+    const res = await getStaffDepartmentInfo({ keyWord });
     ctx.body = {
       code: 200,
       message: "数据获取成功",

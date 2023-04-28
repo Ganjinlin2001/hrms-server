@@ -65,9 +65,9 @@ class VacateController {
     };
   }
 
-  async getStaffVacateInfoByCode(ctx) {
-    const { code } = ctx.query;
-    const res = await getStaffVacateInfo({ code });
+  async getStaffVacateInfoByKeyWord(ctx) {
+    const { keyWord } = ctx.query;
+    const res = await getStaffVacateInfo({ keyWord });
     ctx.body = {
       code: 200,
       message: "数据获取成功",

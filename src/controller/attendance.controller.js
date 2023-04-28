@@ -7,8 +7,8 @@ const {
 
 class AttendanceController {
   async getStaffAllAttendanceRecord(ctx) {
-    const { code } = ctx.query;
-    const res = await getAll({ code });
+    const { keyWord } = ctx.query;
+    const res = await getAll({ keyWord });
     // console.log("res: ", res);
     ctx.body = {
       code: 200,
@@ -63,6 +63,16 @@ class AttendanceController {
 
   async getAllStaffAttendanceRecord(ctx) {
     const res = await getAll({});
+    ctx.body = {
+      code: 200,
+      message: "数据获取成功",
+      result: res,
+    };
+  }
+
+  async searchAttendanceInfoByKeyWord(ctx) {
+    const { keyWord } = ctx.query;
+    const res = await getAll({ keyWord });
     ctx.body = {
       code: 200,
       message: "数据获取成功",

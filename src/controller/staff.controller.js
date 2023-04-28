@@ -93,7 +93,7 @@ class StaffController {
       job,
       department,
       dormitory,
-      basic_salary
+      basic_salary,
     } = ctx.request.body;
     const res = await createStaff({
       code,
@@ -108,7 +108,7 @@ class StaffController {
       job,
       department,
       dormitory,
-      basic_salary
+      basic_salary,
     });
     ctx.body = {
       code: 200,
@@ -119,7 +119,8 @@ class StaffController {
 
   // 获取所有员工信息
   async getStaffList(ctx, next) {
-    const res = await getStaffList();
+    const keyWord = '';
+    const res = await getStaffList({ keyWord });
     ctx.body = {
       code: 200,
       message: "请求成功",
@@ -159,7 +160,7 @@ class StaffController {
       labor_contract,
       apply_status,
       service_status,
-    } = await getStaffInfo({ code, });
+    } = await getStaffInfo({ code });
     ctx.body = {
       code: 200,
       message: "数据获取成功",
@@ -200,7 +201,8 @@ class StaffController {
 
   // 更新员工信息
   async adminUpdate(ctx, next) {
-    const { id,
+    const {
+      id,
       name,
       code,
       gender,
@@ -226,9 +228,11 @@ class StaffController {
       basic_salary,
       labor_contract,
       apply_status,
-      service_status, } = ctx.request.body;
-      console.log('小程序传过来的数据：', ctx.request.body);
-    const res = await updateStaffInfo({ id,
+      service_status,
+    } = ctx.request.body;
+    console.log("小程序传过来的数据：", ctx.request.body);
+    const res = await updateStaffInfo({
+      id,
       name,
       code,
       gender,
@@ -254,7 +258,8 @@ class StaffController {
       basic_salary,
       labor_contract,
       apply_status,
-      service_status, });
+      service_status,
+    });
     ctx.body = {
       code: 200,
       message: "更新成功",
@@ -264,19 +269,34 @@ class StaffController {
 
   // 员工修改密码
   async changePassword(ctx) {
-    const {code, password} = ctx.request.body;
-    if (await updateStaffInfo({code, password})) {
+    const { code, password } = ctx.request.body;
+    if (await updateStaffInfo({ code, password })) {
       ctx.body = {
         code: 200,
-        message: '修改密码成功',
-        result: '',
-      }
+        message: "修改密码成功",
+        result: "",
+      };
     } else {
       ctx.body = {
         code: 10016,
-        message: '密码重置出错',
-        result: ''
-      }
+        message: "密码重置出错",
+        result: "",
+      };
+    }
+  }
+
+  async searchStaffInfoByKeyWord(ctx) {
+    try {
+      const { keyWord } = ctx.query;
+      console.log("keyWord: ", typeof keyWord, keyWord);
+      const res = await getStaffList({ keyWord });
+      ctx.body = {
+        code: 200,
+        message: "数据获取成功",
+        result: res,
+      };
+    } catch (error) {
+      console.error('controller 出错信息：', error)
     }
   }
 }

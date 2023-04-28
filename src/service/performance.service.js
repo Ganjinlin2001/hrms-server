@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const Performance = require("../model/performance.model");
 
 class PerformanceService {
@@ -32,9 +34,55 @@ class PerformanceService {
     });
   }
 
-  async getAll({ code, year, month }) {
-    const where = {};
-    code && Object.assign(where, { code });
+  async getAll({ keyWord, year, month }) {
+    let where = {};
+    // code && Object.assign(where, { code });
+    if (keyWord !== undefined) {
+      where = {
+        [Op.or]: [
+          {
+            code: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            job: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            basic_salary: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            performance: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            department: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reward: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+          {
+            reward_salary: {
+              [Op.like]: `%${keyWord}%`,
+            },
+          },
+        ],
+      }
+    }
     year && Object.assign(where, { year });
     month && Object.assign(where, { month });
     return await Performance.findAndCountAll({ where });
@@ -48,6 +96,7 @@ class PerformanceService {
     reward,
     reward_salary,
     real_salary,
+    performance_salary
   }) {
     const where = {
       code,
@@ -59,6 +108,7 @@ class PerformanceService {
       reward,
       reward_salary,
       real_salary,
+      performance_salary
     };
     return await Performance.update(updateData, { where });
   }

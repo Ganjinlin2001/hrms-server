@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const Staff = require("../model/staff.model");
 
 class StaffService {
@@ -85,40 +87,119 @@ class StaffService {
   }
 
   // 获取所有员工信息
-  async getStaffList() {
-    const res = await Staff.findAll({
-      attributes: [
-        "id",
-        "code",
-        "password",
-        "name",
-        "gender",
-        "birthday",
-        "id_number",
-        "avatar",
-        "dormitory",
-        "phone",
-        "email",
-        "emergency_contact_person",
-        "emergency_contact_phone",
-        "home_address",
-        "school",
-        "school_address",
-        "edu_bg",
-        "major",
-        "job",
-        "department",
-        "pro_skills",
-        "work_experience",
-        "campus_experience",
-        "project_experience",
-        "basic_salary",
-        "labor_contract",
-        "apply_status",
-        "service_status",
-      ],
-    });
-    return res ? res : null;
+  async getStaffList({ keyWord }) {
+    // console.log("keyWord: ", typeof { keyWord }, { keyWord });
+    try {
+      let where = {};
+      // keyWord && Object.assign(where, {keyWord})
+      if (keyWord !== undefined) {
+        where = {
+          [Op.or]: [
+            {
+              code: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              name: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              job: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              department: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              phone: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              dormitory: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              id_number: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              school: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              home_address: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              major: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              pro_skills: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              school_address: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+            {
+              email: {
+                [Op.like]: `%${keyWord}%`,
+              },
+            },
+          ],
+        };
+      }
+      const res = await Staff.findAll({
+        where,
+        attributes: [
+          "id",
+          "code",
+          "password",
+          "name",
+          "gender",
+          "birthday",
+          "id_number",
+          "avatar",
+          "dormitory",
+          "phone",
+          "email",
+          "emergency_contact_person",
+          "emergency_contact_phone",
+          "home_address",
+          "school",
+          "school_address",
+          "edu_bg",
+          "major",
+          "job",
+          "department",
+          "pro_skills",
+          "work_experience",
+          "campus_experience",
+          "project_experience",
+          "basic_salary",
+          "labor_contract",
+          "apply_status",
+          "service_status",
+        ],
+      });
+      return res ? res : null;
+    } catch (error) {
+      console.log("出错信息：", error);
+    }
   }
 
   // 更新员工信息
@@ -151,7 +232,7 @@ class StaffService {
     service_status,
     password,
     code,
-    leave_html
+    leave_html,
   }) {
     // console.log("gender: ", gender);
     const where = {};
