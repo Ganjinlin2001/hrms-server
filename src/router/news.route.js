@@ -26,7 +26,7 @@ router.get('/getArticleInfo', getArticleInfo);
 router.post('/delArticle', auth, delArticle);
 
 // 按关键词搜索文章
-router.get('/searchNewsByKeyWord', auth, searchNewsByKeyWord);
+router.get('/searchNewsByKeyWord', searchNewsByKeyWord);
 
 // 员工获取新闻列表
 router.get('/staffGetNewsList', staffGetNewsList);
