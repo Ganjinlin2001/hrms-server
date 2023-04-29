@@ -7,7 +7,7 @@ const {
   createAdmin,
   getAdminList,
   updateAdminInfo,
-  deleteAdminById,
+  del,
 } = require("../service/admin.service");
 
 class Admin {
@@ -158,9 +158,9 @@ class Admin {
   }
 
   // 删除管理员
-  async deleteAdmin(ctx, next) {
-    const { id } = ctx.request.body;
-    const res = await deleteAdminById({ id });
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
     ctx.body = {
       code: 200,
       message: "删除成功",

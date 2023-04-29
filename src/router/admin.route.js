@@ -6,7 +6,7 @@ const {
   checkAdminCode,
   getAdminList,
   update,
-  deleteAdmin,
+  del,
   changePassword,
 } = require("../controller/admin.controller");
 
@@ -34,7 +34,7 @@ router.get("/getAll", auth, getAdminList);
 router.post("/update", auth, update);
 
 // 删除管理员
-router.post("/del", auth, deleteAdmin);
+router.post("/del", auth, del);
 
 // 通过关键词查找管理员
 router.get("/getAdminInfoByKeyWord", auth, getAdminInfo);

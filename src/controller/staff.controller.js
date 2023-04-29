@@ -3,9 +3,21 @@ const {
   getStaffInfo,
   getStaffList,
   updateStaffInfo,
+  del
 } = require("../service/staff.service");
 
 class StaffController {
+
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: "删除成功",
+      result: res,
+    };
+  }
+
   // 员工登录
   async login(ctx, next) {
     const { code } = ctx.request.body;

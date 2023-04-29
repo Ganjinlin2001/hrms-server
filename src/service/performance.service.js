@@ -3,6 +3,16 @@ const { Op } = require("sequelize");
 const Performance = require("../model/performance.model");
 
 class PerformanceService {
+
+  async deletePerformance(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Performance.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   async getStaffPerformanceInfo({ code, year, month }) {
     const where = {};
     code && Object.assign(where, { code });
@@ -81,11 +91,14 @@ class PerformanceService {
             },
           },
         ],
-      }
+      };
     }
     year && Object.assign(where, { year });
     month && Object.assign(where, { month });
-    return await Performance.findAndCountAll({ where });
+    return await Performance.findAndCountAll({
+      order: [["id", "DESC"]],
+      where,
+    });
   }
 
   async updateStaffPerformance({
@@ -96,7 +109,7 @@ class PerformanceService {
     reward,
     reward_salary,
     real_salary,
-    performance_salary
+    performance_salary,
   }) {
     const where = {
       code,
@@ -108,7 +121,7 @@ class PerformanceService {
       reward,
       reward_salary,
       real_salary,
-      performance_salary
+      performance_salary,
     };
     return await Performance.update(updateData, { where });
   }

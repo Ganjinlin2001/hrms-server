@@ -7,7 +7,8 @@ const {
   cancelStaffDepartmentApply,
   getAllStaffDepartmentRecord,
   getStaffDepartmentInfoByKeyWord,
-  updateStaffDepartmentInfoByCode
+  updateStaffDepartmentInfoByCode,
+  del
 } = require("../controller/department.controller");
 const { auth } = require("../middleware/auth.middleware");
 
@@ -26,5 +27,7 @@ router.get('/getAllStaffDepartmentRecord', auth, getAllStaffDepartmentRecord);
 router.get('/getStaffDepartmentInfoByKeyWord', getStaffDepartmentInfoByKeyWord);
 
 router.post('/updateStaffDepartmentInfoByCode', auth, updateStaffDepartmentInfoByCode);
+
+router.post('/del', auth, del);
 
 module.exports = router;

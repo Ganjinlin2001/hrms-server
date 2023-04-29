@@ -3,9 +3,21 @@ const {
   getStaffAttendanceInfo,
   createStaffAttendanceRecord,
   updateStaffAttendanceInfo,
+  del
 } = require("../service/attendance.service");
 
 class AttendanceController {
+
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: '删除成功',
+      result: res,
+    }
+  }
+
   async getStaffAllAttendanceRecord(ctx) {
     const { keyWord } = ctx.query;
     const res = await getAll({ keyWord });

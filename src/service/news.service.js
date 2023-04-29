@@ -48,6 +48,7 @@ class NewsService {
 
   async staffGetNewsList() {
     const res = await News.findAll({
+      order: [['id', 'DESC']],
       where: {
         is_publish: true,
       },
@@ -67,6 +68,7 @@ class NewsService {
 
   async searchNewsByKeyWord({ keyWord }) {
     return await News.findAndCountAll({
+      order: [['id', 'DESC']],
       where: {
         [Op.or]: [
           {

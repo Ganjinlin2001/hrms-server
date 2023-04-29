@@ -6,7 +6,8 @@ const {
   addStaffAttendanceRecord,
   updateStaffAttendanceInfo,
   getAllStaffAttendanceRecord,
-  searchAttendanceInfoByKeyWord
+  searchAttendanceInfoByKeyWord,
+  del
 } = require("../controller/attendance.controller");
 const { auth } = require("../middleware/auth.middleware");
 
@@ -23,5 +24,7 @@ router.post('/updateStaffAttendanceInfo', updateStaffAttendanceInfo);
 router.get('/getAllStaffAttendanceRecord', auth, getAllStaffAttendanceRecord);
 
 router.get('/search', searchAttendanceInfoByKeyWord);
+
+router.post('/del', auth, del);
 
 module.exports = router;

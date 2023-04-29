@@ -5,11 +5,21 @@ const {
   getStaffLeaveInfo,
   getAll,
   passStaffLeave,
+  del
 } = require("../service/leave.service");
 
 const { getStaffInfo } = require("../service/staff.service");
 
 class LeaveController {
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: "删除成功",
+      result: res,
+    };
+  }
   async getLateRecord(ctx) {
     const { code } = ctx.query;
     const res = await getLateRecord({ code });
@@ -69,7 +79,7 @@ class LeaveController {
         result: res,
       };
     } catch (error) {
-      console.error('controller 出错信息：', error)
+      console.error("controller 出错信息：", error);
     }
   }
 

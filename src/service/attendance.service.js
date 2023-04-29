@@ -3,6 +3,15 @@ const { Op } = require("sequelize");
 const Attendance = require("../model/attendance.model");
 
 class AttendanceService {
+  async del(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Attendance.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   async getAll({ keyWord }) {
     let where = {};
     if (keyWord !== undefined) {
@@ -33,6 +42,7 @@ class AttendanceService {
     }
     // code && Object.assign(where, { code });
     const res = await Attendance.findAll({
+      order: [['id', 'DESC']],
       where,
       attributes: [
         "id",

@@ -4,9 +4,20 @@ const {
   createStaffDepartmentApply,
   updateStaffDepartmentInfo,
   getStaffDepartmentInfo,
+  del
 } = require("../service/department.service");
 
 class DepartmentController {
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: "删除成功",
+      result: res,
+    };
+  }
+
   async getStaffAllDepartmentRocord(ctx) {
     const { code } = ctx.query;
     const res = await getAll({ code });

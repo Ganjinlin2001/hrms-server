@@ -4,9 +4,20 @@ const {
   createStaffVacateApply,
   updateStaffVacateInfo,
   getStaffVacateInfo,
+  del,
 } = require("../service/vacate.service");
 
 class VacateController {
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: "删除成功",
+      result: res,
+    };
+  }
+
   async getStaffLateRecord(ctx) {
     const { code } = ctx.query;
     const res = await getStaffLateRecord({ code });

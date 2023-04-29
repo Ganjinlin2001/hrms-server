@@ -1,6 +1,15 @@
 const Vacate = require("../model/vacate.model");
 const { Op } = require("sequelize");
 class VacateService {
+  async del(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Vacate.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   async getStaffLateRecord({ code }) {
     const res = await Vacate.findOne({
       where: {
@@ -15,6 +24,7 @@ class VacateService {
     const where = {};
     code && Object.assign(where, { code });
     const res = await Vacate.findAll({
+      order: [['id', 'DESC']],
       where,
       attributes: [
         "id",
@@ -73,6 +83,7 @@ class VacateService {
       ],
     }
     const res = await Vacate.findAll({
+      order: [['id', 'DESC']],
       where,
       attributes: [
         "id",

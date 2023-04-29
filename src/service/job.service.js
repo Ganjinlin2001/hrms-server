@@ -1,6 +1,15 @@
 const Job = require("../model/job.model");
 const { Op } = require("sequelize");
 class JobService {
+  async del(data) {
+    const id = data instanceof Array ? data.map((i) => i.id) : data.id;
+    return await Job.destroy({
+      where: {
+        id,
+      },
+    });
+  }
+
   async createStaffJobApply({ code, name, pre_job, new_job, reason }) {
     const res = await Job.create({
       code,
@@ -36,6 +45,7 @@ class JobService {
     const where = {};
     code && Object.assign(where, { code });
     const res = await Job.findAll({
+      order: [["id", "DESC"]],
       where,
       attributes: [
         "id",
@@ -55,6 +65,7 @@ class JobService {
 
   async getStaffJobInfo({ keyWord }) {
     const res = await Job.findAll({
+      order: [["id", "DESC"]],
       where: {
         [Op.or]: [
           {

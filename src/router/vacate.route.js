@@ -7,7 +7,8 @@ const {
   cancelVacateApply,
   getAllStaffVacateRecord,
   updateStaffVacateInfoByCode,
-  getStaffVacateInfoByKeyWord
+  getStaffVacateInfoByKeyWord,
+  del
 } = require("../controller/vacate.controller");
 const { auth } = require("../middleware/auth.middleware");
 
@@ -30,5 +31,7 @@ router.get("/getAllStaffVacateRecord", auth, getAllStaffVacateRecord);
 router.get('/search', getStaffVacateInfoByKeyWord);
 
 router.post('/updateStaffVacateInfoByCode', auth, updateStaffVacateInfoByCode);
+
+router.post('/del', auth, del);
 
 module.exports = router;

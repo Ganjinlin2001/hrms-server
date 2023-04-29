@@ -44,6 +44,7 @@ class AdminService {
   // 获取管理员列表
   async getAdminList({ keyWord }) {
     const res = await Admin.findAll({
+      order: [["id", "DESC"]],
       where: {
         [Op.or]: [
           {
@@ -126,10 +127,13 @@ class AdminService {
   }
 
   // 删除管理员
-  async deleteAdminById({ id }) {
-    const where = { id };
-    const res = await Admin.destroy({ where });
-    return res[0] > 0 ? true : false;
+  async del(data) {
+    const id = data instanceof Array ? data.map((i) => i.id) : data.id;
+    return await Dormitory.destroy({
+      where: {
+        id,
+      },
+    });
   }
 }
 

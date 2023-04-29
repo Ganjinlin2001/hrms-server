@@ -9,6 +9,7 @@ const {
   updateStaffLeaveInfoByCode,
   getStaffInfo,
   passStaffLeave,
+  del
 } = require("../controller/leave.controller");
 
 const { sendPDF } = require("../middleware/leave.middleware");
@@ -37,5 +38,7 @@ router.get("/getStaffInfo", auth, getStaffInfo);
 // 通过审批事件
 router.post("/pass", auth, sendPDF, updateStaffLeaveInfoByCode);
 // router.post("/pass", auth, updateStaffLeaveInfoByCode);
+
+router.post('/del', auth, del);
 
 module.exports = router;

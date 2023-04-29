@@ -5,8 +5,18 @@ const Leave = require("../model/leave.model");
 const { updateStaffInfo } = require("../service/staff.service");
 
 class LeaveService {
+  async del(data) {
+    const id = data instanceof Array ? data.map((i) => i.id) : data.id;
+    return await Leave.destroy({
+      where: {
+        id,
+      },
+    });
+  }
+
   async getLateRecord({ code }) {
     const res = await Leave.findAll({
+      order: [["id", "DESC"]],
       where: {
         code,
       },
@@ -42,7 +52,7 @@ class LeaveService {
     sign_date,
     signature_img_a,
     pdf_base64_string,
-    sign_date_a
+    sign_date_a,
   }) {
     // console.log("水水水水",{ code, id, status, leave_html });
     const where = {};
@@ -59,7 +69,7 @@ class LeaveService {
     sign_date_a && Object.assign(updateData, { sign_date_a });
     const res = await Leave.update(updateData, { where });
     // 更新用户的个人信息
-    console.log('pdf_base64_string: ', pdf_base64_string == undefined);
+    console.log("pdf_base64_string: ", pdf_base64_string == undefined);
     if (pdf_base64_string !== undefined) {
       await updateStaffInfo({ code, service_status: 0 });
     }
@@ -69,6 +79,7 @@ class LeaveService {
 
   async getStaffLeaveInfo({ keyWord }) {
     const res = await Leave.findAll({
+      order: [["id", "DESC"]],
       where: {
         [Op.or]: [
           {
@@ -106,6 +117,7 @@ class LeaveService {
     const where = {};
     code && Object.assign(where, { code });
     const res = await Leave.findAll({
+      order: [["id", "DESC"]],
       where,
     });
     // console.log('res: ',);

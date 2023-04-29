@@ -3,6 +3,16 @@ const { Op } = require("sequelize");
 const Staff = require("../model/staff.model");
 
 class StaffService {
+
+  async del(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Staff.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   // 创建新员工
   async createStaff({
     code,
@@ -164,6 +174,7 @@ class StaffService {
         };
       }
       const res = await Staff.findAll({
+        order: [['id', 'DESC']],
         where,
         attributes: [
           "id",

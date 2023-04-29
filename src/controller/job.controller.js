@@ -4,9 +4,20 @@ const {
   updateStaffJob,
   getAll,
   getStaffJobInfo,
+  del
 } = require("../service/job.service");
 
 class JobController {
+  async del(ctx) {
+    const data = ctx.request.body;
+    const res = await del(data);
+    ctx.body = {
+      code: 200,
+      message: "删除成功",
+      result: res,
+    };
+  }
+
   async addStaffJobApply(ctx, next) {
     console.log(ctx.request.body);
     const { code, pre_job, new_job, reason, name } = ctx.request.body;

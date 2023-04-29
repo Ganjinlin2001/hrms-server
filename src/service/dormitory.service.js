@@ -3,6 +3,16 @@ const Dormitory = require("../model/dormitory.model");
 const { Op } = require("sequelize");
 
 class DormitoryService {
+
+  async del(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Dormitory.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   async createStaffDormitoryApply({
     code,
     pre_dormitory,
@@ -32,6 +42,7 @@ class DormitoryService {
 
   async getStaffDormitoryInfo({ code }) {
     const res = await Dormitory.findAll({
+      order: [['id', 'DESC']],
       where: {
         code,
       },
@@ -86,6 +97,7 @@ class DormitoryService {
       };
     }
     const res = await Dormitory.findAll({
+      order: [['id', 'DESC']],
       where,
       attributes: [
         "id",

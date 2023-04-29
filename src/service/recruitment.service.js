@@ -3,7 +3,11 @@ const {Op} = require('sequelize');
 
 class recruitmentService {
   async getJobList() {
-    return await Recruitment.findAndCountAll();
+    return await Recruitment.findAndCountAll(
+      {
+        order: [['id', 'DESC']],
+      }
+    );
   }
 
   async createJob({ name, salary, city, experiece, degree, desc }) {
@@ -19,6 +23,7 @@ class recruitmentService {
 
   async searchJobByKeyWord({ keyWord }) {
     return await Recruitment.findAndCountAll({
+      order: [['id', 'DESC']],
       where: {
         [Op.or]: [
           {

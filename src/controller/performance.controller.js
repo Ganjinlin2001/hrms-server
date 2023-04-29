@@ -2,9 +2,24 @@ const {
   createStaffPerformance,
   getAll,
   updateStaffPerformance,
+  deletePerformance,
 } = require("../service/performance.service");
 
 class PerformanceController {
+  async del(ctx) {
+    try {
+      const data = ctx.request.body;
+      const res = await deletePerformance(data);
+      ctx.body = {
+        code: 200,
+        message: "删除成功",
+        result: res,
+      };
+    } catch (error) {
+      console.log('出错：', error);
+    }
+  }
+
   async addPerformance(ctx) {
     const { code, name, department, job, basic_salary, year, month } =
       ctx.request.body;
@@ -53,7 +68,7 @@ class PerformanceController {
       reward,
       reward_salary,
       real_salary,
-      performance_salary
+      performance_salary,
     } = ctx.request.body;
     const res = await updateStaffPerformance({
       code,
@@ -63,7 +78,7 @@ class PerformanceController {
       reward,
       reward_salary,
       real_salary,
-      performance_salary
+      performance_salary,
     });
     ctx.body = {
       code: 200,

@@ -1,10 +1,21 @@
 const Department = require("../model/department.model");
 
 class DepartmentService {
+
+  async del(data) {
+    const id = data instanceof Array ? data.map(i => i.id) : data.id;
+    return await Department.destroy({
+      where: {
+        id,
+      }
+    })
+  }
+
   async getAll({ code }) {
     const where = {};
     code && Object.assign(where, { code });
     const res = await Department.findAll({
+      order: [['id', 'DESC']],
       where,
       attributes: [
         "id",
@@ -56,6 +67,7 @@ class DepartmentService {
 
   async getStaffDepartmentInfo({code}) {
     const res = await Department.findAll({
+      order: [['id', 'DESC']],
       where: {
         [Op.or]: [
           {

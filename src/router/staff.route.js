@@ -8,6 +8,7 @@ const {
   getStaffInfo,
   changePassword,
   searchStaffInfoByKeyWord,
+  del
 } = require("../controller/staff.controller");
 const { auth } = require("../middleware/auth.middleware");
 const {
@@ -60,5 +61,7 @@ router.post(
 
 // 查找员工信息
 router.get("/search", auth, searchStaffInfoByKeyWord);
+
+router.post('/del', auth, del);
 
 module.exports = router;

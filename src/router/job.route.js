@@ -7,7 +7,8 @@ const {
   getStaffAll,
   getAll,
   getStaffJobInfoByCode,
-  updateStaffJobInfoByCode
+  updateStaffJobInfoByCode,
+  del
 } = require("../controller/job.controller");
 const { auth } = require("../middleware/auth.middleware");
 
@@ -29,5 +30,7 @@ router.get('/getStaffJobInfoByKeyWord', getStaffJobInfoByCode);
 
 // 员工更新自己的信息
 router.post('/updateStaffJobInfoByCode', auth, updateStaffJobInfoByCode);
+
+router.post('/del', auth, del);
 
 module.exports = router;
