@@ -58,10 +58,11 @@ class AttendanceController {
   }
 
   async updateStaffAttendanceInfo(ctx) {
-    const { code, id, end_work_time, on_work_time, state } = ctx.request.body;
+    const { code, id, start_work_time, end_work_time, on_work_time, state } = ctx.request.body;
     const res = await updateStaffAttendanceInfo({
       code,
       id,
+      start_work_time,
       end_work_time,
       on_work_time,
       state
